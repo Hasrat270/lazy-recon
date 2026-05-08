@@ -6,6 +6,7 @@ use serde_json::Value;
 
 /// Result of injecting a payload into a parameter
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub struct InjectionResult {
     pub param: String,
     pub reflected_in_body: bool,
@@ -28,7 +29,9 @@ impl Analyzer {
     }
 
     /// Extract parameters from a RawRequest (Query + Body)
+    #[allow(dead_code)]
     pub fn extract_params_from_raw(raw: &crate::core::parser::RawRequest) -> Vec<(String, String)> {
+        // ... (existing logic)
         let mut params = raw.query_params.clone();
         
         // Extract from body if it's form-data or JSON

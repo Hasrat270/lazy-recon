@@ -4,12 +4,12 @@ use anyhow::Result;
 
 #[derive(Debug, Clone)]
 pub struct RawRequest {
-    pub method: String,
+    pub _method: String,
     pub path: String,
-    pub host: String,
+    pub _host: String,
     pub headers: HashMap<String, String>,
-    pub body: String,
-    pub query_params: Vec<(String, String)>,
+    pub _body: String,
+    pub _query_params: Vec<(String, String)>,
 }
 
 pub struct RequestParser;

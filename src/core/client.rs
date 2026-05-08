@@ -22,13 +22,13 @@ impl HttpClient {
         Ok(Self { inner: client })
     }
 
+    #[allow(dead_code)]
     pub fn from_raw(raw: &crate::core::parser::RawRequest) -> anyhow::Result<Self> {
         use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
         let mut headers = HeaderMap::new();
         
         for (k, v) in &raw.headers {
             if let (Ok(name), Ok(val)) = (HeaderName::from_bytes(k.as_bytes()), HeaderValue::from_bytes(v.as_bytes())) {
-                // Skip host header as reqwest handles it
                 if name != reqwest::header::HOST {
                     headers.insert(name, val);
                 }
@@ -44,6 +44,7 @@ impl HttpClient {
         Ok(Self { inner: client })
     }
 
+    #[allow(dead_code)]
     pub fn following_redirects() -> anyhow::Result<Self> {
         let client = reqwest::Client::builder()
             .danger_accept_invalid_certs(true)

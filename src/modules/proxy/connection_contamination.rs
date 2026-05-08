@@ -1,5 +1,6 @@
 use colored::*;
 use crate::core::client::RawClient;
+use crate::core::reporter::Reporter;
 use url::Url;
 
 pub async fn detect(target: &str) -> anyhow::Result<()> {
@@ -7,6 +8,8 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
     
     let url = Url::parse(target)?;
     let host = url.host_str().unwrap_or("");
+    
+    Reporter::progress("Sending pipelined raw request for connection contamination check...");
     
     let payload = format!(
         "POST / HTTP/1.1\r\n\
@@ -24,7 +27,9 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
 
     if let Ok(response) = RawClient::send_raw(target, payload.as_bytes()).await {
         if response.contains("HTTP/1.1 404") || response.contains("/lazy-recon-test") {
-            println!("{} Potential Connection Contamination detected!", "[!]".red().bold());
+            Reporter::found("Connection Contamination", "Server processed pipelined GET request unexpectedly (desync potential)");
+        } else {
+            Reporter::success("Connection handled correctly (no contamination detected).");
         }
     }
 

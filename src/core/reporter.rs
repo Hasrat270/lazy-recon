@@ -1,22 +1,26 @@
 use colored::*;
 
-/// Simple reporter for scan findings
+/// Real-time scanner feedback utilities
 pub struct Reporter;
 
 impl Reporter {
+    /// Report a confirmed vulnerability
     pub fn found(module: &str, detail: &str) {
-        println!("{} CONFIRMED: {} — {}", "[!]".red().bold(), module, detail);
+        println!("{} {} — {}", "[!]".red().bold(), module.red().bold(), detail);
     }
 
-    pub fn testing(module: &str) {
-        println!("{} Testing: {}", "[*]".yellow(), module);
+    /// Update on current test progress
+    pub fn progress(msg: &str) {
+        println!("{} {}", "[>]".cyan(), msg);
     }
 
+    /// Report a successful but not necessarily vulnerable check
+    pub fn success(msg: &str) {
+        println!("{} {}", "[+]".green(), msg);
+    }
+
+    /// Status update
     pub fn info(msg: &str) {
-        println!("{} {}", "[i]".cyan(), msg);
-    }
-
-    pub fn none(module: &str) {
-        println!("{} {}: No issues detected", "[✓]".green(), module);
+        println!("{} {}", "[*]".blue(), msg);
     }
 }

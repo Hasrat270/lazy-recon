@@ -90,13 +90,23 @@ impl RawClient {
 
             tls_stream.write_all(raw_payload).await?;
             let mut response = Vec::new();
-            tls_stream.read_to_end(&mut response).await?;
+            // Wrap in timeout to avoid hanging on keep-alive connections
+            let _ = tokio::time::timeout(
+                Duration::from_secs(5),
+                tls_stream.read_to_end(&mut response)
+            ).await;
+            
             Ok(String::from_utf8_lossy(&response).to_string())
         } else {
             let mut stream = TcpStream::connect(&addr).await?;
             stream.write_all(raw_payload).await?;
             let mut response = Vec::new();
-            stream.read_to_end(&mut response).await?;
+            // Wrap in timeout to avoid hanging on keep-alive connections
+            let _ = tokio::time::timeout(
+                Duration::from_secs(5),
+                stream.read_to_end(&mut response)
+            ).await;
+            
             Ok(String::from_utf8_lossy(&response).to_string())
         }
     }

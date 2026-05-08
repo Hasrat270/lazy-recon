@@ -15,6 +15,29 @@ impl HttpClient {
     pub fn new() -> anyhow::Result<Self> {
         let client = reqwest::Client::builder()
             .danger_accept_invalid_certs(true)
+            .user_agent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+            .redirect(reqwest::redirect::Policy::none())
+            .timeout(Duration::from_secs(10))
+            .build()?;
+        Ok(Self { inner: client })
+    }
+
+    pub fn from_raw(raw: &crate::core::parser::RawRequest) -> anyhow::Result<Self> {
+        use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
+        let mut headers = HeaderMap::new();
+        
+        for (k, v) in &raw.headers {
+            if let (Ok(name), Ok(val)) = (HeaderName::from_bytes(k.as_bytes()), HeaderValue::from_bytes(v.as_bytes())) {
+                // Skip host header as reqwest handles it
+                if name != reqwest::header::HOST {
+                    headers.insert(name, val);
+                }
+            }
+        }
+
+        let client = reqwest::Client::builder()
+            .danger_accept_invalid_certs(true)
+            .default_headers(headers)
             .redirect(reqwest::redirect::Policy::none())
             .timeout(Duration::from_secs(10))
             .build()?;
@@ -24,6 +47,7 @@ impl HttpClient {
     pub fn following_redirects() -> anyhow::Result<Self> {
         let client = reqwest::Client::builder()
             .danger_accept_invalid_certs(true)
+            .user_agent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
             .redirect(reqwest::redirect::Policy::limited(10))
             .timeout(Duration::from_secs(10))
             .build()?;

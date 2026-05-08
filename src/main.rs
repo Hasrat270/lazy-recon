@@ -9,14 +9,32 @@ mod modules;
 async fn main() -> anyhow::Result<()> {
     print_banner();
 
-    let target = Text::new("Enter target URL (e.g., https://example.com):")
-        .with_placeholder("https://...")
-        .prompt()?;
+    let input_methods = vec!["Target URL", "Raw HTTP Request File (Burp)"];
+    let input_method = Select::new("Choose input method:", input_methods).prompt()?;
 
-    if target.is_empty() {
-        println!("{}", "Error: Target URL cannot be empty.".red());
-        process::exit(1);
-    }
+    let target = if input_method == "Target URL" {
+        let t = Text::new("Enter target URL (e.g., https://example.com):")
+            .with_placeholder("https://...")
+            .prompt()?;
+        
+        if t.is_empty() {
+            println!("{}", "Error: Target URL cannot be empty.".red());
+            process::exit(1);
+        }
+        t
+    } else {
+        let file_path = Text::new("Enter path to raw request file:")
+            .with_placeholder("request.txt")
+            .prompt()?;
+            
+        let raw = core::parser::RequestParser::from_file(&file_path)?;
+        let host = raw.headers.get("host").cloned().unwrap_or_default();
+        let scheme = if host.contains(":443") { "https" } else { "http" };
+        
+        let t = format!("{}://{}{}", scheme, host, raw.path);
+        println!("{} Parsed Target from file: {}", "[i]".cyan(), t);
+        t
+    };
 
     loop {
         let categories = vec![

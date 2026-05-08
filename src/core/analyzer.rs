@@ -2,6 +2,7 @@ use url::Url;
 use crate::core::client::HttpClient;
 use std::collections::HashMap;
 use std::time::Instant;
+use serde_json::Value;
 
 /// Result of injecting a payload into a parameter
 #[derive(Debug, Clone)]
@@ -24,6 +25,30 @@ impl Analyzer {
         Url::parse(target)
             .map(|url| url.query_pairs().map(|(k, v)| (k.to_string(), v.to_string())).collect())
             .unwrap_or_default()
+    }
+
+    /// Extract parameters from a RawRequest (Query + Body)
+    pub fn extract_params_from_raw(raw: &crate::core::parser::RawRequest) -> Vec<(String, String)> {
+        let mut params = raw.query_params.clone();
+        
+        // Extract from body if it's form-data or JSON
+        let ct = raw.headers.get("content-type").map(|s| s.as_str()).unwrap_or("");
+        if ct.contains("application/x-www-form-urlencoded") {
+            let body_params = raw.body.split('&')
+                .filter_map(|pair| {
+                    let mut s = pair.splitn(2, '=');
+                    Some((s.next()?.to_string(), s.next()?.to_string()))
+                });
+            params.extend(body_params);
+        } else if ct.contains("application/json") {
+            if let Ok(Value::Object(map)) = serde_json::from_str::<serde_json::Value>(&raw.body) {
+                for (k, v) in map {
+                    params.push((k, v.to_string().replace('"', "")));
+                }
+            }
+        }
+        
+        params
     }
 
     /// Build a URL with one parameter replaced by a payload

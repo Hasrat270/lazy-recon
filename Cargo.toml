@@ -1,0 +1,21 @@
+[package]
+name = "lazy-recon"
+version = "0.1.0"
+edition = "2021"
+authors = ["Antigravity"]
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+hyper = { version = "0.14", features = ["full"] }
+url = "2.3"
+inquire = "0.6"
+colored = "2.0"
+indicatif = "0.17"
+anyhow = "1.0"
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio-rustls = "0.24"
+webpki-roots = "0.25" # Added for TLS root certs
+rand = "0.8"

@@ -25,7 +25,8 @@ async fn main() -> anyhow::Result<()> {
             "HTTP Headers (CORS, CSP)",
             "Bypasses (2FA, Rate Limit)",
             "Structured Objects (JWT, GraphQL)",
-            "Infrastructure (Servers, CMS)",
+            "Files (Upload, Formula Injection)",
+            "Infrastructure (Servers, CMS, Frameworks)",
             "Exit",
         ];
 
@@ -48,11 +49,22 @@ async fn main() -> anyhow::Result<()> {
                 println!("{} Running Bypass Modules...", "[-]".blue());
                 modules::auth::run(&target).await?;
             }
+            "Structured Objects (JWT, GraphQL)" => {
+                println!("{} Running Structured Object Modules...", "[-]".blue());
+                modules::structured::run(&target).await?;
+            }
+            "Files (Upload, Formula Injection)" => {
+                println!("{} Running File Modules...", "[-]".blue());
+                modules::files::run(&target).await?;
+            }
+            "Infrastructure (Servers, CMS, Frameworks)" => {
+                println!("{} Running Infrastructure Modules...", "[-]".blue());
+                modules::infra::run(&target).await?;
+            }
             "Exit" => {
                 println!("{}", "Exiting lazy-recon. Happy hunting!".green());
                 break;
             }
-            _ => println!("{}", "This module is under development.".yellow()),
         }
     }
 

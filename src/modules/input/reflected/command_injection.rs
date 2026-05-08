@@ -1,7 +1,6 @@
 use colored::*;
 use crate::core::client::HttpClient;
 use crate::core::analyzer::Analyzer;
-use std::time::Duration;
 
 /// Command Injection detection via time-based and echo-based methods
 pub async fn detect(target: &str) -> anyhow::Result<()> {

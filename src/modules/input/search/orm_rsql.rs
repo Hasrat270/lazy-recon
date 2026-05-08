@@ -10,7 +10,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
     if params.is_empty() { return Ok(()); }
 
     let client = HttpClient::new()?;
-    let baseline = Analyzer::send_and_analyze(&client, target, "").await?;
+    let _baseline = Analyzer::send_and_analyze(&client, target, "").await?;
 
     let orm_errors = vec![
         "QuerySyntaxException", "HqlSyntaxException", "hibernate",

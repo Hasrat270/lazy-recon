@@ -11,7 +11,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
         ("XSLT Version", "<?xml version=\"1.0\"?><xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"><xsl:template match=\"/\"><xsl:value-of select=\"system-property('xsl:version')\"/></xsl:template></xsl:stylesheet>"),
     ];
 
-    for (name, payload) in payloads {
+    for (_name, payload) in payloads {
         let response = client.inner.post(target)
             .header("Content-Type", "application/xml")
             .body(payload)

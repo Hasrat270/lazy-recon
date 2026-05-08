@@ -1,7 +1,6 @@
 use colored::*;
 use crate::core::client::HttpClient;
-use reqwest::header::{HeaderMap, HeaderName, HeaderValue, CONNECTION};
-use std::str::FromStr;
+use reqwest::header::{HeaderMap, HeaderValue, CONNECTION};
 
 pub async fn detect(target: &str) -> anyhow::Result<()> {
     println!("{} Testing: Abusing hop-by-hop headers", "[*]".yellow());
@@ -12,7 +11,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
     let baseline_headers = baseline.headers().clone();
     
     let test_candidates = vec!["Server", "Date", "Content-Type", "X-Powered-By"];
-    let mut found_vulnerable = false;
+    let mut _found_vulnerable = false;
 
     for candidate in test_candidates {
         if baseline_headers.contains_key(candidate) {
@@ -27,7 +26,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
             
             if !response.headers().contains_key(candidate) {
                 println!("{} Potential Hop-by-Hop Abuse! Proxy removed the '{}' header.", "[!]".red().bold(), candidate);
-                found_vulnerable = true;
+                _found_vulnerable = true;
                 break; 
             }
         }

@@ -1,6 +1,5 @@
 use colored::*;
 use crate::core::client::HttpClient;
-use crate::core::analyzer::Analyzer;
 
 /// XXE (XML External Entity) detection
 pub async fn detect(target: &str) -> anyhow::Result<()> {

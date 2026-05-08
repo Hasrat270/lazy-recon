@@ -31,7 +31,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
 
     if ws_found {
         // Check if WebSocket upgrade request validates Origin
-        let ws_url = if target.starts_with("https") {
+        let _ws_url = if target.starts_with("https") {
             target.replace("https://", "wss://")
         } else {
             target.replace("http://", "ws://")

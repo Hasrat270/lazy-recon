@@ -1,6 +1,5 @@
 use colored::*;
 use crate::core::client::HttpClient;
-use crate::core::analyzer::Analyzer;
 use reqwest::multipart;
 
 /// File Upload vulnerability detection (RCE, bypasses, etc.)

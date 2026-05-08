@@ -1,5 +1,4 @@
 use colored::*;
-use crate::core::client::HttpClient;
 use std::net::ToSocketAddrs;
 use url::Url;
 

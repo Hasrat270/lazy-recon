@@ -12,7 +12,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
         ("ESI Include", "<esi:include src=\"http://example.com/\" />"),
     ];
 
-    for (name, payload) in payloads {
+    for (_name, payload) in payloads {
         let response = client.inner.get(target)
             .header("User-Agent", payload)
             .header("Referer", payload)

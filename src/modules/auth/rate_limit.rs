@@ -1,6 +1,5 @@
 use colored::*;
 use crate::core::client::HttpClient;
-use crate::core::analyzer::Analyzer;
 
 /// Rate Limit bypass detection via header manipulation
 pub async fn detect(target: &str) -> anyhow::Result<()> {

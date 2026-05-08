@@ -10,9 +10,9 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
     if params.is_empty() { return Ok(()); }
 
     let client = HttpClient::new()?;
-    let baseline = Analyzer::send_and_analyze(&client, target, "").await?;
+    let _baseline = Analyzer::send_and_analyze(&client, target, "").await?;
 
-    for (param_name, original_val) in &params {
+    for (param_name, _original_val) in &params {
         // Inject duplicate parameter with different value
         let hpp_val = format!("lzrpollution_{}", rand::random::<u16>());
         let test_url = format!("{}&{}={}", target, param_name, hpp_val);

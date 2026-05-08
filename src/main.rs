@@ -83,6 +83,7 @@ async fn main() -> anyhow::Result<()> {
                 println!("{}", "Exiting lazy-recon. Happy hunting!".green());
                 break;
             }
+            _ => {}
         }
     }
 

@@ -12,7 +12,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
     let client = HttpClient::new()?;
     let baseline = Analyzer::send_and_analyze(&client, target, "").await?;
 
-    for (param_name, original_val) in &params {
+    for (param_name, _original_val) in &params {
         // Query-string operator injection
         let nosql_payloads = vec![
             (format!("{}[$ne]", param_name), "null_bypass"),

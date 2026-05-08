@@ -31,14 +31,13 @@ impl Analyzer {
     /// Extract parameters from a RawRequest (Query + Body)
     #[allow(dead_code)]
     pub fn extract_params_from_raw(raw: &crate::core::parser::RawRequest) -> Vec<(String, String)> {
-        // ... (existing logic)
         let mut params = raw.query_params.clone();
         
         // Extract from body if it's form-data or JSON
         let ct = raw.headers.get("content-type").map(|s| s.as_str()).unwrap_or("");
         if ct.contains("application/x-www-form-urlencoded") {
             let body_params = raw.body.split('&')
-                .filter_map(|pair| {
+                .filter_map(|pair: &str| {
                     let mut s = pair.splitn(2, '=');
                     Some((s.next()?.to_string(), s.next()?.to_string()))
                 });
@@ -107,6 +106,7 @@ impl Analyzer {
     }
 
     /// Test all URL params with a payload and return hits
+    #[allow(dead_code)]
     pub async fn test_all_params(
         target: &str,
         payload: &str,
@@ -130,12 +130,14 @@ impl Analyzer {
     }
 
     /// Get baseline response for comparison-based detection
+    #[allow(dead_code)]
     pub async fn baseline(target: &str) -> anyhow::Result<InjectionResult> {
         let client = HttpClient::new()?;
         Self::send_and_analyze(&client, target, "").await
     }
 
     /// Test a timed payload — returns (param, response_time_ms)
+    #[allow(dead_code)]
     pub async fn test_timed(
         target: &str,
         param_name: &str,

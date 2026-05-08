@@ -3,13 +3,14 @@ use std::fs;
 use anyhow::Result;
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub struct RawRequest {
-    pub _method: String,
+    pub method: String,
     pub path: String,
-    pub _host: String,
+    pub host: String,
     pub headers: HashMap<String, String>,
-    pub _body: String,
-    pub _query_params: Vec<(String, String)>,
+    pub body: String,
+    pub query_params: Vec<(String, String)>,
 }
 
 pub struct RequestParser;

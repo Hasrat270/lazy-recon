@@ -1,8 +1,10 @@
 use colored::*;
 
 /// Real-time scanner feedback utilities
+#[allow(dead_code)]
 pub struct Reporter;
 
+#[allow(dead_code)]
 impl Reporter {
     /// Report a confirmed vulnerability
     pub fn found(module: &str, detail: &str) {

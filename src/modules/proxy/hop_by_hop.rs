@@ -29,7 +29,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
                 .await?;
             
             if !response.headers().contains_key(candidate) {
-                Reporter::found("Hop-by-Hop Abuse", &format!("Proxy stripped the '{}' header (Confirmed via Connection manipulation)", candidate));
+                Reporter::found("Hop-by-Hop Abuse", &format!("Proxy stripped the '{}' header", candidate), &format!("Add 'Connection: {}, close' to your request and check if '{}' header disappears.", candidate, candidate));
                 _found_vulnerable = true;
                 break; 
             }

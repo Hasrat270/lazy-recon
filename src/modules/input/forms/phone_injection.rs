@@ -16,7 +16,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
         ("+1234567890;ext=1", "Extension injection"),
         ("+1234567890%0d%0a", "CRLF in phone field"),
         ("tel:+1234567890", "URI scheme injection"),
-        ("+{{7*7}}", "SSTI via phone field"),
+        ("+{{1337*2}}", "SSTI via phone field"),
         ("+1234567890' OR '1'='1", "SQLi via phone field"),
         ("+1234567890<script>alert(1)</script>", "XSS via phone field"),
     ];
@@ -43,7 +43,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
             if let Ok(result) = Analyzer::send_and_analyze(&client, &url, "").await {
                 if result.status_code == 200 || result.status_code == 302 {
                     if result.response_body.contains("alert(1)")
-                        || result.response_body.contains("49")
+                        || result.response_body.contains("2674")
                         || result.response_body.contains("sql")
                     {
                         println!(

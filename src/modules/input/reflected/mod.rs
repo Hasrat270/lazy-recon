@@ -23,59 +23,87 @@ pub async fn run(target: &str) -> anyhow::Result<()> {
     
     // 1. XSS
     Reporter::info("Scanning for XSS...");
-    xss::detect(target).await?;
+    if let Err(e) = xss::detect(target).await {
+        println!("{} Error in XSS: {}", "[x]".red(), e);
+    }
     
     // 2. SSTI
     Reporter::info("Scanning for SSTI...");
-    ssti::detect(target).await?;
+    if let Err(e) = ssti::detect(target).await {
+        println!("{} Error in SSTI: {}", "[x]".red(), e);
+    }
     
     // 3. Command Injection
     Reporter::info("Scanning for Command Injection...");
-    command_injection::detect(target).await?;
+    if let Err(e) = command_injection::detect(target).await {
+        println!("{} Error in Command Injection: {}", "[x]".red(), e);
+    }
     
     // 4. CRLF
     Reporter::info("Scanning for CRLF...");
-    crlf::detect(target).await?;
+    if let Err(e) = crlf::detect(target).await {
+        println!("{} Error in CRLF: {}", "[x]".red(), e);
+    }
     
     // 5. SSRF
     Reporter::info("Scanning for SSRF...");
-    ssrf::detect(target).await?;
+    if let Err(e) = ssrf::detect(target).await {
+        println!("{} Error in SSRF: {}", "[x]".red(), e);
+    }
     
     // 6. Path Traversal / File Inclusion
     Reporter::info("Scanning for Path Traversal/LFI...");
-    path_traversal::detect(target).await?;
+    if let Err(e) = path_traversal::detect(target).await {
+        println!("{} Error in Path Traversal: {}", "[x]".red(), e);
+    }
     
     // 7. Open Redirect
     Reporter::info("Scanning for Open Redirect...");
-    open_redirect::detect(target).await?;
+    if let Err(e) = open_redirect::detect(target).await {
+        println!("{} Error in Open Redirect: {}", "[x]".red(), e);
+    }
     
     // 8. Dangling Markup
     Reporter::info("Scanning for Dangling Markup...");
-    dangling_markup::detect(target).await?;
+    if let Err(e) = dangling_markup::detect(target).await {
+        println!("{} Error in Dangling Markup: {}", "[x]".red(), e);
+    }
     
     // 9. Reverse Tab Nabbing
     Reporter::info("Scanning for Reverse Tab Nabbing...");
-    reverse_tab_nabbing::detect(target).await?;
+    if let Err(e) = reverse_tab_nabbing::detect(target).await {
+        println!("{} Error in Tab Nabbing: {}", "[x]".red(), e);
+    }
     
     // 10. XSSI
     Reporter::info("Scanning for XSSI...");
-    xssi::detect(target).await?;
+    if let Err(e) = xssi::detect(target).await {
+        println!("{} Error in XSSI: {}", "[x]".red(), e);
+    }
     
     // 11. Prototype Pollution
     Reporter::info("Scanning for Prototype Pollution...");
-    prototype_pollution::detect(target).await?;
+    if let Err(e) = prototype_pollution::detect(target).await {
+        println!("{} Error in Prototype Pollution: {}", "[x]".red(), e);
+    }
     
     // 12. Client Side Template Injection
     Reporter::info("Scanning for Client-Side Template Injection...");
-    client_side_template::detect(target).await?;
+    if let Err(e) = client_side_template::detect(target).await {
+        println!("{} Error in CSTI: {}", "[x]".red(), e);
+    }
     
     // 13. Client Side Path Traversal
     Reporter::info("Scanning for Client-Side Path Traversal...");
-    client_side_path_traversal::detect(target).await?;
+    if let Err(e) = client_side_path_traversal::detect(target).await {
+        println!("{} Error in CSPT: {}", "[x]".red(), e);
+    }
     
     // 14. XS-Search
     Reporter::info("Scanning for XS-Search...");
-    xs_search::detect(target).await?;
+    if let Err(e) = xs_search::detect(target).await {
+        println!("{} Error in XS-Search: {}", "[x]".red(), e);
+    }
 
     // NOTE: SSI/ESI and XSLT are reused from proxy module — no duplicate needed
 

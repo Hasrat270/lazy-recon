@@ -27,7 +27,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
 
     if let Ok(response) = RawClient::send_raw(target, payload.as_bytes()).await {
         if response.contains("HTTP/1.1 404") || response.contains("/lazy-recon-test") {
-            Reporter::found("Connection Contamination", "Server processed pipelined GET request unexpectedly (desync potential)");
+            Reporter::found("Connection Contamination", "Server processed pipelined GET request unexpectedly", "Send two requests in one TCP packet and check if the second response is returned.");
         } else {
             Reporter::success("Connection handled correctly (no contamination detected).");
         }

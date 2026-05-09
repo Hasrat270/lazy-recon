@@ -1,4 +1,5 @@
 use url::Url;
+use colored::Colorize;
 use crate::core::client::HttpClient;
 use std::collections::HashMap;
 use std::time::Instant;
@@ -83,6 +84,10 @@ impl Analyzer {
         let resp = client.inner.get(url).send().await?;
         let elapsed = start.elapsed().as_millis();
         let status = resp.status().as_u16();
+        
+        if status != 200 {
+            println!(" {} [{}] — {}", "->".blue(), status, url);
+        }
 
         let mut resp_headers = HashMap::new();
         for (name, value) in resp.headers().iter() {

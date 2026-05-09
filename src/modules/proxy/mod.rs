@@ -19,47 +19,69 @@ pub async fn run(target: &str) -> anyhow::Result<()> {
 
     // 1. Abusing hop-by-hop headers
     Reporter::info("Testing Hop-by-Hop headers...");
-    hop_by_hop::detect(target).await?;
+    if let Err(e) = hop_by_hop::detect(target).await {
+        println!("{} Error in Hop-by-Hop: {}", "[x]".red(), e);
+    }
     
     // 2. Cache Poisoning/Cache Deception
     Reporter::info("Testing Cache Poisoning/Deception...");
-    cache_poisoning::detect(target).await?;
+    if let Err(e) = cache_poisoning::detect(target).await {
+        println!("{} Error in Cache Poisoning: {}", "[x]".red(), e);
+    }
     
     // 3. HTTP Connection Contamination
     Reporter::info("Testing Connection Contamination...");
-    connection_contamination::detect(target).await?;
+    if let Err(e) = connection_contamination::detect(target).await {
+        println!("{} Error in Connection Contamination: {}", "[x]".red(), e);
+    }
 
     // 4. HTTP Connection Request Smuggling
     Reporter::info("Testing Connection Request Smuggling...");
-    connection_request_smuggling::detect(target).await?;
+    if let Err(e) = connection_request_smuggling::detect(target).await {
+        println!("{} Error in Connection Request Smuggling: {}", "[x]".red(), e);
+    }
     
     // 5. HTTP Request Smuggling
     Reporter::info("Testing HTTP Request Smuggling (CL.TE/TE.CL)...");
-    request_smuggling::detect(target).await?;
+    if let Err(e) = request_smuggling::detect(target).await {
+        println!("{} Error in Request Smuggling: {}", "[x]".red(), e);
+    }
 
     // 6. HTTP Response Smuggling / Desync
     Reporter::info("Testing Response Smuggling/Desync...");
-    response_smuggling::detect(target).await?;
+    if let Err(e) = response_smuggling::detect(target).await {
+        println!("{} Error in Response Smuggling: {}", "[x]".red(), e);
+    }
 
     // 7. H2C Smuggling
     Reporter::info("Testing H2C Smuggling...");
-    h2c_smuggling::detect(target).await?;
+    if let Err(e) = h2c_smuggling::detect(target).await {
+        println!("{} Error in H2C Smuggling: {}", "[x]".red(), e);
+    }
 
     // 8. SSI/ESI
     Reporter::info("Testing SSI/ESI Injections...");
-    ssi_esi::detect(target).await?;
+    if let Err(e) = ssi_esi::detect(target).await {
+        println!("{} Error in SSI/ESI: {}", "[x]".red(), e);
+    }
 
     // 9. Uncovering Cloudflare
     Reporter::info("Testing Cloudflare IP Uncovering...");
-    uncovering_cloudflare::detect(target).await?;
+    if let Err(e) = uncovering_cloudflare::detect(target).await {
+        println!("{} Error in Cloudflare module: {}", "[x]".red(), e);
+    }
 
     // 10. XSLT Injection
     Reporter::info("Testing XSLT Server-Side Injection...");
-    xslt_injection::detect(target).await?;
+    if let Err(e) = xslt_injection::detect(target).await {
+        println!("{} Error in XSLT module: {}", "[x]".red(), e);
+    }
 
     // 11. Proxy / WAF Protections Bypass
     Reporter::info("Testing Proxy/WAF Bypasses...");
-    waf_bypass::detect(target).await?;
+    if let Err(e) = waf_bypass::detect(target).await {
+        println!("{} Error in WAF Bypass: {}", "[x]".red(), e);
+    }
     
     Ok(())
 }

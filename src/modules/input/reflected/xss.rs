@@ -65,12 +65,11 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
             let result = Analyzer::send_and_analyze(&client, &url, payload).await?;
 
             if result.reflected_in_body {
-                println!(
-                    "{} CONFIRMED: Reflected XSS in param '{}' — payload reflected unencoded!",
-                    "[!]".red().bold(), param_name
+                crate::core::reporter::Reporter::found(
+                    "Reflected XSS",
+                    &format!("Parameter '{}' reflects unencoded payload", param_name),
+                    &format!("Payload: {} | URL: {}", payload, url)
                 );
-                println!("    Payload: {}", payload);
-                println!("    URL: {}", url);
                 return Ok(());
             }
         }

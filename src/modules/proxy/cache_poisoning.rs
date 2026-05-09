@@ -42,7 +42,7 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
             let second_body = second_resp.text().await?;
 
             if second_body.contains(&canary) {
-                Reporter::found("Cache Poisoning", &format!("Confirmed persistence via unkeyed header: {}", header_name));
+                Reporter::found("Cache Poisoning", &format!("Confirmed persistence via unkeyed header: {}", header_name), &format!("Inject '{}: {}', then fetch the URL normally (without header) to see if it's cached.", header_name, canary));
             }
         }
     }

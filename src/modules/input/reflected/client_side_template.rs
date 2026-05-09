@@ -13,11 +13,11 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
 
     // (payload, expected_in_response, framework)
     let csti_probes: Vec<(&str, &str, &str)> = vec![
-        ("{{7*7}}", "49", "AngularJS/Vue"),
-        ("${7*7}", "49", "JS Template Literal"),
+        ("{{1337*2}}", "2674", "AngularJS/Vue"),
+        ("${1337*2}", "2674", "JS Template Literal"),
         ("{{constructor.constructor('return 1')()}}", "1", "AngularJS sandbox escape"),
         ("{{[].constructor.constructor('return 1')()}}", "1", "AngularJS sandbox escape v2"),
-        ("[${7*7}]", "[49]", "Vue.js"),
+        ("[${1337*2}]", "[2674]", "Vue.js"),
     ];
 
     for (param_name, _) in &params {

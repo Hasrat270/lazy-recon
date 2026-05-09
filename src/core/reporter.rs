@@ -6,9 +6,12 @@ pub struct Reporter;
 
 #[allow(dead_code)]
 impl Reporter {
-    /// Report a confirmed vulnerability
-    pub fn found(module: &str, detail: &str) {
+    /// Report a confirmed vulnerability with manual proof steps
+    pub fn found(module: &str, detail: &str, proof: &str) {
         println!("{} {} — {}", "[!]".red().bold(), module.red().bold(), detail);
+        if !proof.is_empty() {
+            println!("   {} Manual Proof: {}", "->".yellow(), proof.cyan());
+        }
     }
 
     /// Update on current test progress
